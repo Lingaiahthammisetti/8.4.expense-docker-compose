@@ -49,7 +49,6 @@ VALIDATE $? "Adding ec2-user to docker group as secondary group"
 
 echo -e "$G Logout and login again $N"
 
-
 echo "******* Resize EBS Storage ********8"
 lsblk &>>$LOGFILE
 VALIDATE $? "check the partitions"
@@ -68,13 +67,3 @@ VALIDATE $? "For the root filesystem:"
 
 sudo xfs_growfs /var &>>$LOGFILE
 VALIDATE $? "For the /var filesystem:"
-
-
-
-
-
-
-
-
-
-
