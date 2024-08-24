@@ -29,22 +29,52 @@ else
 
 fi 
 
-yum install yum-utils -y &>>$LOGFILE
-VALIDATE $? "Installing utils packages"
+# yum install yum-utils -y &>>$LOGFILE
+# VALIDATE $? "Installing utils packages"
 
-yum-config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo &>>$LOGFILE
-VALIDATE $? "adding Docker repo"
+# yum-config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo &>>$LOGFILE
+# VALIDATE $? "adding Docker repo"
 
-yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y &>>$LOGFILE
-VALIDATE $? "Installing docker"
+# yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y &>>$LOGFILE
+# VALIDATE $? "Installing docker"
 
-systemctl start docker &>>$LOGFILE
-VALIDATE $? "Starting docker"
+# systemctl start docker &>>$LOGFILE
+# VALIDATE $? "Starting docker"
 
-systemctl enable docker &>>$LOGFILE
-VALIDATE $? "Enabling Docker"
+# systemctl enable docker &>>$LOGFILE
+# VALIDATE $? "Enabling Docker"
 
-usermod -aG docker ec2-user &>>$LOGFILE
-VALIDATE $? "Adding ec2-user to docker group as secondary group"
+# usermod -aG docker ec2-user &>>$LOGFILE
+# VALIDATE $? "Adding ec2-user to docker group as secondary group"
 
-echo -e "$G Logout and login again $N"
+# echo -e "$G Logout and login again $N"
+
+
+echo "******* Resize EBS Storage ********8"
+lsblk &>>$LOGFILE
+VALIDATE $? "check the partitions"
+
+sudo growpart /dev/nvme0n1 4 &>>$LOGFILE
+VALIDATE $? "growpart to resize the existing partition to fill the available space"
+
+sudo lvextend -l +50%FREE /dev/RootVG/rootVol &>>$LOGFILE
+VALIDATE $? "Extend the Logical Volumes Decide how much space to allocate to each logical volume."
+
+sudo lvextend -l +50%FREE /dev/RootVG/varVol &>>$LOGFILE
+VALIDATE $? "Extend the Logical Volumes Decide how much space to allocate to each logical volume.-2"
+
+sudo xfs_growfs / &>>$LOGFILE
+VALIDATE $? "For the root filesystem:"
+
+sudo xfs_growfs /var &>>$LOGFILE
+VALIDATE $? "For the /var filesystem:"
+
+
+
+
+
+
+
+
+
+
