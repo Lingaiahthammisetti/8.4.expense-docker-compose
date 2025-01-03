@@ -49,7 +49,6 @@ VALIDATE $? "Adding ec2-user to docker group as secondary group"
 
 echo -e "$G Logout and login again $N"
 
-
 echo "******* Resize EBS Storage ****************"
 # ec2 instance creation request for Docker expense project
 # =============================================
