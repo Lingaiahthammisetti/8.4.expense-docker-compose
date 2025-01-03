@@ -56,6 +56,7 @@ echo "******* Resize EBS Storage ****************"
 # t3.micro
 # allow-everything
 # 50 GB
+#Note: We can not do resizing the storage while creating the ec2 instance.
 
 lsblk &>>$LOGFILE
 VALIDATE $? "check the partitions"
